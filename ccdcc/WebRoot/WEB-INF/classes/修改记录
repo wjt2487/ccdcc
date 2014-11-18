@@ -1,0 +1,11 @@
+2014-08-22 修改了HisCarDaoImpl中getHisCarDataBySidAndTime方法的sql语句：原来（sql =
+		"select {hiscar.*} from "+tableName+" hiscar where hiscar.parentId = "+sid+" and  hiscar.updateTime  between '"+ startTime +
+		"' and  '" + endTime +"'"+
+		" and (unloadStorageType = 0 or (((datepart(hour, hiscar.updateTime)*3600+ datepart(minute,hiscar.updateTime)*60+datepart(second,hiscar.updateTime)) " + 
+		" - (datepart(hour, '"+startTime+"')*3600+ datepart(minute,'"+startTime+"')*60+datepart(second,'"+startTime+"'))) % " + value +" = 0" +
+		" and (hiscar.histDataStorageType = 0 or (hiscar.HistDataStorageType = -1 and hiscar.histAlarmStorageType = -1 and hiscar.gpsStorageType = -1 and hiscar.unloadStorageType = -1)" +
+		" or (HistDataStorageType = 1 and histAlarmStorageType = 1 and gpsStorageType = 1 and unloadStorageType = 1))))" +
+		" order by hiscar.updateTime";）为了兼容新的车载上传数据间隔为5分钟
+2014-10-17 :实现在查询车载历史数据时显示经纬度信息和车的实际位置:	hiscarlist3.jsp添加了经纬度信息和位置信息，	TbccBaseHisCar.java添加了getAddress（ ） 
+ ,TbccBaseUser.java添加了字段isShowAddress，TbccUser.hbm.xml 和TbccHqUser.hbm.xml添加了字段isShowAddress，数据库ccdcc中表TbccUser添加了字段isShowAddress，HisCarAction.java  中添加了一个变量isShowAddress(0:代表不显示位置；1：代表显示位置)
+----------------------------------
